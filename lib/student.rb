@@ -37,7 +37,7 @@ class Student
       LIMIT 1
     SQL
     
-    if DB[:conn].execute(sql)[0] != nil
+    if DB[:conn].execute(sql)[0] != " "
       self.update
     else
       sql = <<-SQL
