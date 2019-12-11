@@ -32,38 +32,36 @@ class Student
   
   def save
     sql = <<-SQL
-      INSERT INTO students (name, grade)
-      VALUES (?, ?);
-    SQL
-    
-    DB[:conn].execute(sql, self.name, self.grade)
-    @id = DB[:conn].execute("SELECT last_insert_rowid() FROM students;")[0][0]
-  end
-  
-  def self.create(name, grade)
-    sql = <<-SQL
       SELECT * FROM students
       WHERE name = ? AND grade = ?
       LIMIT 1
     SQL
     
-    student = self.new_from_db(sql)
-    
-    if student.name != " "
-      student.name = name
-      student.grade = grade
-      student.update
+    if DB[:conn].execute(sql)[0] != nil
+      self.name = name
+      self.grade = grade
+      self.update
     else
-      student = self.new(name, grade)
-      
       sql = <<-SQL
         INSERT INTO students (name, grade)
         VALUES (?, ?);
       SQL
-    
-      DB[:conn].execute(sql, student.name, student.grade)
-      student.id = DB[:conn].execute("SELECT last_insert_rowid() FROM students;")[0][0]
+      
+      DB[:conn].execute(sql, self.name, self.grade)
+      @id = DB[:conn].execute("SELECT last_insert_rowid() FROM students;")[0][0]
     end
+  end
+  
+  def self.create(name, grade)
+    student = self.new(name, grade)
+    
+    sql = <<-SQL
+      INSERT INTO students (name, grade)
+      VALUES (?, ?);
+    SQL
+    
+    DB[:conn].execute(sql, student.name, student.grade)
+    student.id = DB[:conn].execute("SELECT last_insert_rowid() FROM students;")[0][0]
   end
   
   def self.new_from_db(row)
