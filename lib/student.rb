@@ -50,10 +50,9 @@ class Student
     student = self.new_from_db(sql)
     
     if student.name != " "
+      student = self.new(name, grade)
       student.update
     else
-      student = self.new(name, grade)
-      
       sql = <<-SQL
         INSERT INTO students (name, grade)
         VALUES (?, ?);
