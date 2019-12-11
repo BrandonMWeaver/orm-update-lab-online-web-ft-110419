@@ -31,12 +31,6 @@ class Student
   end
   
   def save
-    sql = <<-SQL
-      SELECT * FROM students
-      WHERE name = ? AND grade = ?
-      LIMIT 1
-    SQL
-    
     if self.id != nil
       self.update
     else
