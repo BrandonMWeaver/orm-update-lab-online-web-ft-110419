@@ -49,8 +49,8 @@ class Student
     SQL
     
     student = self.new_from_db(sql)
-    binding.pry
-    if student
+    
+    if student.name != " "
       student.update
     else
       student = self.new(name, grade)
