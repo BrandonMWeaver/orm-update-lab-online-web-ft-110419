@@ -38,8 +38,6 @@ class Student
     SQL
     
     if DB[:conn].execute(sql)[0] != nil
-      self.name = name
-      self.grade = grade
       self.update
     else
       sql = <<-SQL
