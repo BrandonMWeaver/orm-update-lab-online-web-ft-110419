@@ -41,8 +41,13 @@ class Student
   end
   
   def self.create(name, grade)
-    student = self.new(name, grade)
-    student = DB[:conn].execute("SELECT * FROM students WHERE name = ? AND grade = ?", name, grade)
+    sql = <<-SQL
+      SELECT * FROM students
+      WHERE name = ? AND grade = ?
+      LIMIT 1
+    SQL
+    
+    student = DB[:conn].execute(sql, name, grade)
     student = self.new_from_db()
     sql = <<-SQL
       INSERT INTO students (name, grade)
