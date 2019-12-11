@@ -1,4 +1,5 @@
 require_relative "../config/environment.rb"
+require "pry"
 
 class Student
   
@@ -48,7 +49,7 @@ class Student
     SQL
     
     student = self.new_from_db(sql)
-    
+    binding.pry
     if student
       student.update
     else
