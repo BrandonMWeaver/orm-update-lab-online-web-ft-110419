@@ -50,6 +50,8 @@ class Student
     student = self.new_from_db(sql)
     
     if student.name != " "
+      student.name = name
+      student.grade = grade
       student.update
     else
       student = self.new(name, grade)
