@@ -52,6 +52,8 @@ class Student
     if student
       student.update
     else
+      student = self.new(name, grade)
+      
       sql = <<-SQL
         INSERT INTO students (name, grade)
         VALUES (?, ?);
