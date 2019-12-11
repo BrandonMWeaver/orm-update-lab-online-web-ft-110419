@@ -69,4 +69,9 @@ class Student
     end.first
   end
   
+  def update
+    sql = <<-SQL
+      UPDATE
+  end
+  
 end
