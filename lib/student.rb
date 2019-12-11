@@ -47,15 +47,19 @@ class Student
       LIMIT 1
     SQL
     
-    student = DB[:conn].execute(sql, name, grade)
-    student = self.new_from_db()
-    sql = <<-SQL
-      INSERT INTO students (name, grade)
-      VALUES (?, ?);
-    SQL
+    student = self.new_from_db(sql)
     
-    DB[:conn].execute(sql, student.name, student.grade)
-    student.id = DB[:conn].execute("SELECT last_insert_rowid() FROM students;")[0][0]
+    if student
+      student.update
+    else
+      sql = <<-SQL
+        INSERT INTO students (name, grade)
+        VALUES (?, ?);
+      SQL
+    
+      DB[:conn].execute(sql, student.name, student.grade)
+      student.id = DB[:conn].execute("SELECT last_insert_rowid() FROM students;")[0][0]
+    end
   end
   
   def self.new_from_db(row)
